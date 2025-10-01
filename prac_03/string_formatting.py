@@ -37,5 +37,5 @@ print(f"{year} {name} for about {cost:,.0f}!")
 
 # Use for loop, range and f-string formatting to produce right-aligned output
 for i in range(11):
-    answer = 2**i
+    answer = 2 ** i
     print(f"2 ^{i:2} is {answer:4}")
