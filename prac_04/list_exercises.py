@@ -1,15 +1,24 @@
 """
-Prompt user for 5 numbers and display information about these numbers.
+Prompt user for 5 numbers and display information about these numbers, and confirm if user is authorised.
 """
 
 
 def main():
-    """Collect numbers from user and display information about the numbers."""
+    """Collect numbers from user and display information about the numbers. Also check if user is authorised"""
     numbers = []
     for i in range(0, 5):
         number = get_number()
         numbers.append(number)
     display_numerical_information(numbers)
+
+    usernames = ['jimbo', 'giltson98', 'derekf', 'WhatSup', 'NicolEye', 'swei45', 'BaseInterpreterInterface',
+                 'BaseStdIn', 'Command', 'ExecState', 'InteractiveConsole', 'InterpreterInterface', 'StartServer',
+                 'bob']
+    username = input("Please enter your name: ")
+    if username in usernames:
+        print("Access granted")
+    else:
+        print("Access denied")
 
 
 def display_numerical_information(numbers: list):
