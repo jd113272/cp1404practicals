@@ -33,7 +33,7 @@ def process_lines(records):
 
 
 def output_winning_countries(champion_to_count, winning_countries):
-    """Output winners, and their of wins, on new lines, as well as which countries have had winners."""
+    """Output winners, and their number of wins, on new lines, as well as which countries have had winners."""
     print("Wimbledon champions: ")
     for champion, number_of_wins in champion_to_count.items():
         print(f"{champion}, {number_of_wins}")
