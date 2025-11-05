@@ -40,7 +40,7 @@ def main():
             # TODO: Add new project
             pass
         elif choice == "U":
-            # TODO: Update project
+            update_project(projects)
             pass
         else:
             # TODO: Error message
@@ -93,9 +93,31 @@ def display_projects(projects, update):
 
     for i, project in enumerate(projects):
         if update:
-            placeholder = i
+            placeholder = f"{i} "
         else:
             placeholder = " "
         print(f"{placeholder}{project}")
+
+
+def update_project(projects):
+    """Update a specific project record."""
+    display_projects(projects, True)
+    try:
+        project_choice = int(input("Project choice: "))
+    except ValueError:
+        return # No valid project choice entered
+    print(projects[project_choice])
+
+    try:
+        percentage = int(input("New Percentage: "))
+    except ValueError:
+        percentage = projects[project_choice].completion_percentage
+    projects[project_choice].completion_percentage = percentage
+    try:
+        priority = int(input("New Priority: "))
+    except ValueError:
+        priority = projects[project_choice].priority
+    projects[project_choice].priority = priority
+
 
 main()
