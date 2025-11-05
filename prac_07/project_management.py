@@ -3,6 +3,7 @@ CP1402 Project Management Program.
 Estimated Time: 2hrs
 Actual Time: 26 minutes (STARTED: 4:46PM ENDED: PM)
 """
+
 from project import Project
 
 MENU = ("- (L)oad projects \n"
@@ -17,7 +18,7 @@ FILENAME = "projects.txt"
 
 def main():
     """Run the Project Management program."""
-    lines = load_lines()
+    lines = load_lines(FILENAME)
     projects = []
     add_initial_projects(lines, projects)
     print(f"Welcome to Pythonic Project Management \n"
@@ -26,8 +27,7 @@ def main():
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            # TODO: Load projects
-            pass
+            load_projects(projects)
         elif choice == "S":
             # TODO: Save projects
             pass
@@ -57,11 +57,18 @@ def add_initial_projects(lines: list[str], projects: list):
         projects.append(Project(line[0], line[1], line[2], line[3], line[4]))
 
 
-def load_lines():
+def load_lines(chosen_file):
     """Retrieve projects from file."""
-    with open(FILENAME, 'r') as in_file:
+    with open(chosen_file, 'r') as in_file:
         # Ignore first line,as it is headings
         in_file.readline()
         return in_file.readlines()
+
+def load_projects(projects):
+    """Load projects from a user chosen file."""
+    chosen_file = input("Filename: ")
+    # Assume first line is always headings
+    lines = load_lines(chosen_file)
+    add_initial_projects(lines, projects)
 
 main()
