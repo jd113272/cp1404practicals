@@ -1,7 +1,7 @@
 """
 CP1402 Project Management Program.
 Estimated Time: 2hrs
-Actual Time: 26 minutes (STARTED: 4:46PM ENDED: PM)
+Actual Time: 1 hr 10 minutes (STARTED: 5:53PM ENDED: PM)
 """
 
 from project import Project
@@ -32,8 +32,7 @@ def main():
             # TODO: Save projects
             pass
         elif choice == "D":
-            # TODO: Display projects
-            pass
+            print_projects_by_completion_status(projects)
         elif choice == "F":
             # TODO: Filter projects by date
             pass
@@ -50,11 +49,25 @@ def main():
         choice = input(">>> ").upper()
 
 
+def print_projects_by_completion_status(projects: list):
+    """Collate and output all incomplete and complete projects."""
+    print("Incomplete projects:")
+    incomplete_projects = [project for project in projects if not project.is_complete()]
+    incomplete_projects.sort()
+    display_projects(incomplete_projects, False)
+
+    print("Completed projects:")
+    complete_projects = [project for project in projects if project.is_complete()]
+    complete_projects.sort()
+    display_projects(complete_projects, False)
+
+
 def add_initial_projects(lines: list[str], projects: list):
     """Append projects from file to list of project objects."""
     for line in lines:
         line = line.strip().split("\t")
-        projects.append(Project(line[0], line[1], line[2], line[3], line[4]))
+        # Order: name, start_date, priority, cost, completion_percentage
+        projects.append(Project(line[0], line[1], int(line[2]), float(line[3]), int(line[4])))
 
 
 def load_lines(chosen_file):
@@ -64,11 +77,25 @@ def load_lines(chosen_file):
         in_file.readline()
         return in_file.readlines()
 
+
 def load_projects(projects):
     """Load projects from a user chosen file."""
     chosen_file = input("Filename: ")
     # Assume first line is always headings
     lines = load_lines(chosen_file)
     add_initial_projects(lines, projects)
+
+
+def display_projects(projects, update):
+    """Display projects in list.
+    projects: list (of projects)
+    update: Boolean (True if needed for updating, False if just displaying)"""
+
+    for i, project in enumerate(projects):
+        if update:
+            placeholder = i
+        else:
+            placeholder = " "
+        print(f"{placeholder}{project}")
 
 main()
