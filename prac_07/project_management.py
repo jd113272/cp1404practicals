@@ -1,7 +1,7 @@
 """
 CP1402 Project Management Program.
 Estimated Time: 2hrs
-Actual Time: 1 hr 10 minutes (STARTED: 5:53PM ENDED: PM)
+Actual Time: 1 hr 46 minutes (STARTED: 4:14PM ENDED: PM)
 """
 
 from project import Project
@@ -37,14 +37,11 @@ def main():
             # TODO: Filter projects by date
             pass
         elif choice == "A":
-            # TODO: Add new project
-            pass
+            projects.append(add_new_project())
         elif choice == "U":
             update_project(projects)
-            pass
         else:
-            # TODO: Error message
-            pass
+            print("Invalid choice!")
         print(MENU)
         choice = input(">>> ").upper()
 
@@ -105,7 +102,7 @@ def update_project(projects):
     try:
         project_choice = int(input("Project choice: "))
     except ValueError:
-        return # No valid project choice entered
+        return  # No valid project choice entered
     print(projects[project_choice])
 
     try:
@@ -118,6 +115,17 @@ def update_project(projects):
     except ValueError:
         priority = projects[project_choice].priority
     projects[project_choice].priority = priority
+
+
+def add_new_project():
+    """Create a new project object."""
+    print("Let's add a new project")
+    name = input("Name: ")
+    start_date = input("Start date (dd/mm/yy): ")
+    priority = int(input("Priority: "))
+    cost_estimate = int(input("Cost estimate: $"))
+    completion_percentage = int(input("Percent complete: "))
+    return Project(name, start_date, priority, cost_estimate, completion_percentage)
 
 
 main()
