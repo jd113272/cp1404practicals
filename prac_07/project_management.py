@@ -1,11 +1,10 @@
 """
 CP1402 Project Management Program.
 Estimated Time: 2hrs
-Actual Time: 1 hr 46 minutes (STARTED: 4:14PM ENDED: PM)
+Actual Time: 2 hr 58 minutes (STARTED: PM ENDED: PM)
 """
-
 from project import Project
-import datetime
+from datetime import datetime
 
 MENU = ("- (L)oad projects \n"
         "- (S)ave projects \n"
@@ -30,8 +29,8 @@ def main():
         if choice == "L":
             load_projects(projects)
         elif choice == "S":
-            # TODO: Save projects
-            pass
+            filename = input("Filename: ")
+            save_projects(projects, filename)
         elif choice == "D":
             print_projects_by_completion_status(projects)
         elif choice == "F":
@@ -44,6 +43,7 @@ def main():
             print("Invalid choice!")
         print(MENU)
         choice = input(">>> ").upper()
+    save_projects(projects, FILENAME)
 
 
 def print_projects_by_completion_status(projects: list):
@@ -64,7 +64,7 @@ def add_initial_projects(lines: list[str], projects: list):
     for line in lines:
         line = line.strip().split("\t")
         # Order: name, start_date, priority, cost, completion_percentage
-        start_date = datetime.datetime.strptime(line[1], "%d/%m/%Y").date()
+        start_date = datetime.strptime(line[1], "%d/%m/%Y").date()
         projects.append(Project(line[0], start_date, int(line[2]), float(line[3]), int(line[4])))
 
 
@@ -123,7 +123,7 @@ def add_new_project():
     print("Let's add a new project")
     name = input("Name: ")
     start_date = input("Start date (dd/mm/yy): ")
-    start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
+    start_date = datetime.strptime(start_date, "%d/%m/%Y").date()
     priority = int(input("Priority: "))
     cost_estimate = int(input("Cost estimate: $"))
     completion_percentage = int(input("Percent complete: "))
@@ -133,9 +133,19 @@ def add_new_project():
 def filter_projects(projects):
     """Show projects completed on or after a specific date."""
     filter_date = input("Show projects that start after date (dd/mm/yy): ")
-    filter_date = datetime.datetime.strptime(filter_date, "%d/%m/%Y").date()
+    filter_date = datetime.strptime(filter_date, "%d/%m/%Y").date()
     filtered_projects = [project for project in projects if project.start_date >= filter_date]
     display_projects(filtered_projects, False)
+
+
+def save_projects(projects, filename):
+    """Save projects to the specified file."""
+    with open(filename, "w") as out_file:
+        print("Name	Start Date	Priority	Cost Estimate	Completion Percentage", file=out_file)
+        for project in projects:
+            # Convert start_date to match original file's format.
+            project.start_date = datetime.strftime(project.start_date, "%d/%m/%Y")  # start_date is a date, not a string
+            print(project.export_project(), file=out_file)
 
 
 main()

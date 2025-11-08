@@ -30,3 +30,7 @@ class Project:
     def is_complete(self):
         """Return if the project has been completed."""
         return self.completion_percentage == 100
+
+    def export_project(self):
+        """Return a string version of the object suitable for saving into a txt file."""
+        return f"{self.name}\t{self.start_date}\t{self.priority}\t{self.cost}\t{self.completion_percentage}"
