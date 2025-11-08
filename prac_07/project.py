@@ -23,9 +23,12 @@ class Project:
         """Return a string version of the object."""
         return f"{self.name}, start: {self.start_date}, priority {self.priority}, estimate: ${self.cost:.2f}, completion: {self.completion_percentage}%"
 
-    def __lt__(self, other):
-        """Return if priority of this project is lower than the other project."""
-        return self.priority < other.priority
+    def __lt__(self, other, key):
+        """Sort the objects by priority or by date."""
+        if key == "priority":
+            return self.priority < other.priority
+        else:
+            return self.start_date < other.start_date
 
     def is_complete(self):
         """Return if the project has been completed."""
