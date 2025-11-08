@@ -5,6 +5,7 @@ Actual Time: 1 hr 46 minutes (STARTED: 4:14PM ENDED: PM)
 """
 
 from project import Project
+import datetime
 
 MENU = ("- (L)oad projects \n"
         "- (S)ave projects \n"
@@ -34,8 +35,7 @@ def main():
         elif choice == "D":
             print_projects_by_completion_status(projects)
         elif choice == "F":
-            # TODO: Filter projects by date
-            pass
+            filter_projects(projects)
         elif choice == "A":
             projects.append(add_new_project())
         elif choice == "U":
@@ -64,7 +64,8 @@ def add_initial_projects(lines: list[str], projects: list):
     for line in lines:
         line = line.strip().split("\t")
         # Order: name, start_date, priority, cost, completion_percentage
-        projects.append(Project(line[0], line[1], int(line[2]), float(line[3]), int(line[4])))
+        start_date = datetime.datetime.strptime(line[1], "%d/%m/%Y").date()
+        projects.append(Project(line[0], start_date, int(line[2]), float(line[3]), int(line[4])))
 
 
 def load_lines(chosen_file):
@@ -122,10 +123,19 @@ def add_new_project():
     print("Let's add a new project")
     name = input("Name: ")
     start_date = input("Start date (dd/mm/yy): ")
+    start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
     priority = int(input("Priority: "))
     cost_estimate = int(input("Cost estimate: $"))
     completion_percentage = int(input("Percent complete: "))
     return Project(name, start_date, priority, cost_estimate, completion_percentage)
+
+
+def filter_projects(projects):
+    """Show projects completed on or after a specific date."""
+    filter_date = input("Show projects that start after date (dd/mm/yy): ")
+    filter_date = datetime.datetime.strptime(filter_date, "%d/%m/%Y").date()
+    filtered_projects = [project for project in projects if project.start_date >= filter_date]
+    display_projects(filtered_projects, False)
 
 
 main()
