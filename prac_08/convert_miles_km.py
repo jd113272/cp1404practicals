@@ -1,3 +1,6 @@
+"""
+Create a KIVY app which can convert an input (in miles) to km, and adjust the result by +1 or -1.
+"""
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import StringProperty
